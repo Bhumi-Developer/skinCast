@@ -66,7 +66,7 @@ function buildSearchQuery(recommendation) {
 }
 
 function filterByGender(products, gender = "unisex") {
-  console.log("🔥 Applying Gender Filter:", gender);
+//   console.log(" Applying Gender Filter:", gender);
   
   if (!products || products.length === 0) return [];
   
@@ -76,7 +76,7 @@ function filterByGender(products, gender = "unisex") {
       return text.includes("men") || text.includes("male") || text.includes("for him");
     });
     
-    console.log("👨 Male Products Found:", maleProducts.length);
+    // console.log("👨 Male Products Found:", maleProducts.length);
     
     // 🔥 If 0 found → fallback to all products
     return maleProducts.length > 0 ? maleProducts : products;
@@ -89,7 +89,7 @@ function filterByGender(products, gender = "unisex") {
       return !text.includes("men") && !text.includes("male") && !text.includes("for him");
     });
     
-    console.log("👩 Female Products Found:", femaleProducts.length);
+    // console.log("👩 Female Products Found:", femaleProducts.length);
     
     // 🔥 If 0 found → fallback to all products
     return femaleProducts.length > 0 ? femaleProducts : products;
@@ -114,12 +114,10 @@ export const getSkincareRecommendation = async (req, res) => {
   const userId = req.userId;
 
   try {
-    /* ------------------ AUTH ------------------ */
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    /* ------------------ VALIDATION ------------------ */
     const {
       location,
       skinType,
@@ -137,13 +135,11 @@ export const getSkincareRecommendation = async (req, res) => {
       });
     }
 
-    /* ------------------ USER ------------------ */
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    /* ------------------ ENV DATA ------------------ */
     const { lat, lon } = await getCoordinates(location);
 
     const [weather, forecast, aqiData] = await Promise.all([
@@ -154,7 +150,6 @@ export const getSkincareRecommendation = async (req, res) => {
 
     const aqi = aqiData?.aqi || 50;
 
-    /* ------------------ AI PROMPT BUILDING ------------------ */
     const aiPrompt = {
       weather: weather,
       aqi: aqi,
@@ -165,9 +160,8 @@ export const getSkincareRecommendation = async (req, res) => {
       category: category || "skin care"
     };
 
-    console.log("🤖 AI Prompt:", JSON.stringify(aiPrompt, null, 2));
+    // console.log("AI Prompt:", JSON.stringify(aiPrompt, null, 2));
 
-    /* ------------------ AI REQUEST ------------------ */
     const aiResponse = await openai.chat.completions.create({
       model: "meta-llama/llama-3-8b-instruct",
       messages: [
@@ -204,14 +198,12 @@ Return STRICT JSON ONLY with NO markdown, NO extra text:
       ],
     });
 
-    /* ------------------ PARSE AI RESPONSE ------------------ */
     let recommendation = {};
 
     try {
       let text = aiResponse.choices[0].message.content || "";
       console.log("🤖 Raw AI Response:", text);
 
-      // Clean the response
       text = text.replace(/```json/g, "").replace(/```/g, "").trim();
       
       const start = text.indexOf("{");
@@ -221,11 +213,10 @@ Return STRICT JSON ONLY with NO markdown, NO extra text:
         recommendation = JSON.parse(text.slice(start, end + 1));
       }
     } catch (parseError) {
-      console.error("❌ Failed to parse AI response:", parseError);
+      console.error("Failed to parse AI response:", parseError);
       recommendation = {};
     }
 
-    /* ------------------ NORMALIZE RECOMMENDATION ------------------ */
     recommendation = {
       productType: recommendation.productType || productGoal?.[0] || "moisturizer",
       ingredients: (recommendation.ingredients || []).map((i) =>
@@ -246,7 +237,6 @@ Return STRICT JSON ONLY with NO markdown, NO extra text:
       })),
     };
 
-    /* ------------------ BUILD SEARCH QUERY ------------------ */
     const searchQuery = buildSearchQuery({
       ...recommendation,
       productType: recommendation.productType,
@@ -254,7 +244,6 @@ Return STRICT JSON ONLY with NO markdown, NO extra text:
     
     console.log("🔍 FINAL SEARCH QUERY:", searchQuery);
 
-    /* ------------------ FETCH PRODUCTS ------------------ */
     let products = await fetchAmazonProducts(searchQuery);
     console.log(`📦 Fetched ${products?.length || 0} products from Amazon`);
 
@@ -273,7 +262,6 @@ Return STRICT JSON ONLY with NO markdown, NO extra text:
       });
     }
 
-    /* ------------------ APPLY FILTERS ------------------ */
     let filteredProducts = [...products];
 
     // 1. Filter by concern/ingredients
@@ -341,7 +329,7 @@ Return STRICT JSON ONLY with NO markdown, NO extra text:
     });
 
   } catch (error) {
-    console.error("❌ Error in getSkincareRecommendation:", error);
+    console.error(" Error in getSkincareRecommendation:", error);
     return res.status(500).json({ 
       message: error.message,
       success: false 
