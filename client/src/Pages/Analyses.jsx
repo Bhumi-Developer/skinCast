@@ -13,11 +13,11 @@ const Analyses = () => {
   return (
 
     <div className='bg-primary/30'>
-      <WeatherPage></WeatherPage>
-      <IngredientsSection></IngredientsSection>
-      <AvoidSection></AvoidSection>
-      <ProductsSection></ProductsSection>
-      <AlternativeRemedySection></AlternativeRemedySection>
+      <WeatherPage />
+      <IngredientsSection />
+      <AvoidSection />
+      <ProductsSection />
+      <AlternativeRemedySection />
       
     
     </div>

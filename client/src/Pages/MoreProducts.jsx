@@ -4,7 +4,7 @@ import ExploreProducts from '../Components/Explore'
 const MoreProducts = () => {
   return (
     <div>
-      <ExploreProducts></ExploreProducts>
+      <ExploreProducts />
     </div>
   )
 }

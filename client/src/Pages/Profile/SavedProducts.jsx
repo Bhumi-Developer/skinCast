@@ -36,7 +36,7 @@ const SavedProducts = () => {
                     className="w-16 h-16 rounded-xl object-cover"
                   />
                   <div>
-                    <h3 className="font-semibold text-gray-800">{product.title}</h3>
+                    <h3 className="font-semibold text-gray-800">{product.name}</h3>
                     <p className="text-primary font-bold">${product.price}</p>
                   </div>
                 </div>

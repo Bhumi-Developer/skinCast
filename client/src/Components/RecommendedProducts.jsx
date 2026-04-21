@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import InfiniteRecommendedCarousel from "./InfiniteRecommendedCarousel";
+import api from "../utils/axios";
+import { toast } from "sonner";
 
 export default function RecommendedProducts() {
   const [products, setProducts] = useState([]);
@@ -9,18 +11,18 @@ export default function RecommendedProducts() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("https://dummyjson.com/products?limit=100");
-        if (!response.ok) throw new Error("Failed to fetch");
-        const data = await response.json();
+        const response = await api.get("/api/product/best-products");
+        console.log(response)
         
         // Filter only beauty and fragrance products
-        const beautyProducts = data.products.filter(
-          product => product.category === "beauty" || product.category === "fragrances"
-        );
+        // const beautyProducts = data.products.filter(
+        //   product => product.category === "beauty" || product.category === "fragrances"
+        // );
         
-        setProducts(beautyProducts);
+        setProducts(response.data.products);
       } catch (err) {
-        setError(err.message);
+        console.log(err)
+        toast.error(err.message || "Something went wrong");
       } finally {
         setLoading(false);
       }
@@ -31,7 +33,7 @@ export default function RecommendedProducts() {
   if (loading) {
     return (
       <section className="w-full py-8">
-        <div className="max-w-[1400px] mx-auto px-4">
+        <div className="max-w-350 mx-auto px-4">
           <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-6 md:p-8 shadow-xl border border-primary-dull/20">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800 flex items-center gap-2">
@@ -60,7 +62,7 @@ export default function RecommendedProducts() {
 
   return (
     <section className="w-full py-8">
-      <div className="max-w-[1400px] mx-auto px-4">
+      <div className="max-w-350 mx-auto px-4">
         <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-6 md:p-8 shadow-xl border border-primary-dull/20">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl md:text-3xl font-bold text-primary flex items-center gap-2">

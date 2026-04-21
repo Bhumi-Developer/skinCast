@@ -210,7 +210,7 @@ const Settings = () => {
           alt="Settings background"
           className="w-full h-full object-cover opacity-30"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-dull/20 via-white/10 to-primary-light/20"></div>
+        <div className="absolute inset-0 bg-linear-to-br from-primary-dull/20 via-white/10 to-primary-light/20"></div>
       </div>
 
       {/* Content */}

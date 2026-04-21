@@ -15,7 +15,7 @@ const AnimatedBanner = () => {
         {/* Neumorphic container */}
         <div
           onMouseEnter={handleMouseEnter}
-          className="group relative w-full h-[450px] overflow-hidden rounded-2xl bg-[#f5ebe6] shadow-[8px_8px_16px_#d9cbc4,-8px_-8px_16px_#ffffff] hover:shadow-[inset_8px_8px_16px_#d9cbc4,inset_-8px_-8px_16px_#ffffff] transition-all duration-500"
+          className="group relative w-full h-112.5 overflow-hidden rounded-2xl bg-[#f5ebe6] shadow-[8px_8px_16px_#d9cbc4,-8px_-8px_16px_#ffffff] hover:shadow-[inset_8px_8px_16px_#d9cbc4,inset_-8px_-8px_16px_#ffffff] transition-all duration-500"
         >
           <div className="flex items-center h-full">
             
@@ -56,7 +56,7 @@ const AnimatedBanner = () => {
           </div>
 
           {/* Decorative accent line */}
-          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r from-transparent via-primary/30 to-transparent"></div>
         </div>
       </div>
     </div>

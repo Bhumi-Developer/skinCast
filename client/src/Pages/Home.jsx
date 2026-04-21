@@ -3,7 +3,7 @@ import Navbar from '../Components/Navbar'
 import Banners from '../Components/Banner'
 import TrustSection from '../Components/TrustSection'
 import Footer from '../Components/Footer'
-import Signup from '../Components/Signup'
+// import Signup from '../Components/Signup'
 import { useAppContext } from '../context/AppContext'
 import RecommendedProducts from '../Components/RecommendedProducts'
 import IngredientsSection from '../Components/Ingridents'
@@ -21,16 +21,14 @@ const Home = () => {
   };
   return (
     <div>
-      <Navbar></Navbar>
-      <Banners></Banners>
-      <RecommendedProducts></RecommendedProducts>
-      <AnimatedBanner></AnimatedBanner>
-      <Skin></Skin>
-      <TrustSection></TrustSection>
-      <Footer></Footer>
+      <Banners />
+      <RecommendedProducts />
+      <AnimatedBanner />
+      <Skin />
+      <TrustSection />
+      <Footer />
       
-      {/* <IngredientsSection></IngredientsSection>
-      <AvoidSection></AvoidSection> */}
+     
        {showUserLogin && <Signup />}
 
        {/* Form Popup Modal */}

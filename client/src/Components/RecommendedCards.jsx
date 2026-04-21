@@ -6,43 +6,43 @@ export default function RecommendedCards({ RecommendedInfo }) {
   const { user, addToSavedProducts } = useAppContext();
   const [saved, setSaved] = useState(false);
 
-const handleSave = () => {
-  if (!user) {
-    alert("Please sign in first");
-    return;
-  }
+// const handleSave = () => {
+//   if (!user) {
+//     alert("Please sign in first");
+//     return;
+//   }
 
-  addToSavedProducts(RecommendedInfo);
-  setSaved(prev => !prev); // 👈 correct toggle
-};
+//   addToSavedProducts(RecommendedInfo);
+//   setSaved(prev => !prev); // 👈 correct toggle
+// };
 
   const handleShopNow = () => {
-    window.open(`https://dummyjson.com/products/${RecommendedInfo?.id}`, '_blank');
+    window.open(`${RecommendedInfo?.url}`, '_blank');
   };
 
   return (
-    <div className="w-[320px] sm:w-[360px]">
+    <div className="w-[320px] sm:w-90">
 
       <div
         className="relative rounded-2xl overflow-hidden 
         border border-primary/20
         shadow-[0_10px_30px_rgba(183,116,102,0.35)] 
         hover:shadow-[0_15px_40px_rgba(183,116,102,0.45)] 
-        transition-all duration-500 group h-[340px]"
+        transition-all duration-500 group h-85"
       >
 
         {/* IMAGE */}
         <img
-          src={RecommendedInfo?.thumbnail}
+          src={RecommendedInfo?.image}
           alt={RecommendedInfo?.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+          className="w-full h-full object-contain group-hover:scale-105 transition duration-500"
         />
 
         {/* GRADIENT OVERLAY */}
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-primary-middle/40 to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-primary/50 via-primary-middle/40 to-transparent"></div>
 
         {/* SAVE ICON */}
-        <button
+        {/* <button
   onClick={handleSave}
   className={`absolute top-3 right-3 p-2 rounded-full shadow transition-all duration-300 
     ${saved ? 'bg-black scale-110' : 'bg-white/80 hover:bg-white'}
@@ -53,14 +53,14 @@ const handleSave = () => {
       ${saved ? 'text-white fill-white' : 'text-black'}
     `}
   />
-</button>
+</button> */}
         {/* CONTENT */}
         <div className="absolute bottom-0 p-4 text-white w-full">
           
           {/* TITLE + PRICE */}
           <div className="flex justify-between items-center">
             <h3 className="font-semibold text-sm md:text-base line-clamp-2">
-              {RecommendedInfo?.title}
+              {RecommendedInfo?.name}
             </h3>
             <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
               ${RecommendedInfo?.price}

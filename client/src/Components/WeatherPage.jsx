@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useAnalysis } from '../context/AnalysisContext';
 
 // Helper functions (same)
 const getUVInfo = (uvi) => {
@@ -19,36 +20,24 @@ const getAQIInfo = (aqi) => {
 };
 
 const WeatherAnalysis = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  
 
-  useEffect(() => {
-    const fetchAnalysis = async () => {
-      try {
-        const response = await fetch('/api/analysis');
-        if (!response.ok) throw new Error('Failed to fetch data');
-        const result = await response.json();
-        setData(result);
-      } catch (err) {
-        setError(err.message);
-        setData({
-          location: 'Delhi',
-          weather: {
-            temp: 38,
-            humidity: 70,
-            uvi: 9,
-            condition: 'Sunny',
-            description: 'clear sky',
-          },
-          aqi: { aqi: 345 },
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchAnalysis();
-  }, []);
+
+ const { analysis, loading, error } = useAnalysis();
+//  console.log(analysis)
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+
+  const location = analysis?.location
+  const weather = analysis?.weather
+  // console.log(weather)
+  const aqi = analysis?.aqi
+
+  //   useEffect(() => {
+  //   // console.log("Products:", products);
+  // }, [location,weather, aqi]);
+
 
   if (loading) {
     return (
@@ -77,11 +66,10 @@ const WeatherAnalysis = () => {
     );
   }
 
-  const { location, weather, aqi } = data;
-  const uvInfo = getUVInfo(weather.uvi);
-  const aqiInfo = getAQIInfo(aqi.aqi);
-  const uvPercent = (weather.uvi / 11) * 100;
-  const aqiPercent = Math.min(100, (aqi.aqi / 500) * 100);
+  const uvInfo = getUVInfo(6);
+  const aqiInfo = getAQIInfo(aqi);
+  // const uvPercent = (weather.uvi / 11) * 100;
+  const aqiPercent = Math.min(100, (aqi / 500) * 100);
   const humidityPercent = weather.humidity;
 
   return (
@@ -103,7 +91,7 @@ const WeatherAnalysis = () => {
         </div>
 
         {/* Main Weather Card */}
-        <div className="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-3 mb-4 sm:mb-6 p-3 sm:p-5 bg-gradient-to-r from-primary-dull/30 via-primary-middle/20 to-primary-light/20 rounded-xl sm:rounded-2xl border border-primary-light/30">
+        <div className="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-3 mb-4 sm:mb-6 p-3 sm:p-5 bg-linear-to-r from-primary-dull/30 via-primary-middle/20 to-primary-light/20 rounded-xl sm:rounded-2xl border border-primary-light/30">
           <div className="flex items-center gap-2 sm:gap-4">
             <div className="text-3xl sm:text-5xl bg-primary/10 p-2 sm:p-3 rounded-xl sm:rounded-2xl">☀️</div>
             <div>
@@ -122,13 +110,13 @@ const WeatherAnalysis = () => {
           {/* UV Card */}
           <div className={`p-3 sm:p-4 rounded-xl border-2 ${uvInfo.bgLight} border-primary-dull/30`}>
             <div className="flex items-center justify-between mb-1 sm:mb-2">
-              <span className="text-sm sm:text-base font-medium text-primary">☀️ UV Index</span>
+              <span className="text-sm sm:text-base font-medium text-primary">☀️ Condition</span>
               <span className={`text-xs sm:text-sm font-bold ${uvInfo.textColor}`}>{uvInfo.label}</span>
             </div>
-            <p className="text-xl sm:text-2xl font-bold text-primary mb-1 sm:mb-2">{weather.uvi}</p>
-            <div className="w-full bg-primary-dull/30 rounded-full h-2">
+            <p className="text-xl sm:text-2xl font-bold text-primary mb-1 sm:mb-2">{weather.condition}</p>
+            {/* <div className="w-full bg-primary-dull/30 rounded-full h-2">
               <div className={`h-2 rounded-full ${uvInfo.barColor}`} style={{ width: `${uvPercent}%` }}></div>
-            </div>
+            </div> */}
             <p className="text-[11px] sm:text-xs text-primary-light mt-1.5 sm:mt-2">
               {weather.uvi > 7 ? 'Use SPF 50+ and reapply every 2 hours' : 'Moderate protection advised'}
             </p>
