@@ -1,8 +1,28 @@
 @import "tailwindcss";
 
 @theme{
-    --color-primary:#522B5B;
-    --color-primary-dull:#854F6C;
-     --color-primary-mid:#DFB6B2;
-    --color-primary-middle:#FBE4D8;
+  --color-primary:#B77466;
+  --color-primary-dull:#FFE1AF;
+  --color-primary-middle:#E2B59A;
+  --color-primary-light:#957C62;
 };
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+}
+
