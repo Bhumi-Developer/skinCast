@@ -13,6 +13,7 @@ import Signup from "./Pages/Signup";
 import { Toaster } from "sonner";
 import { useLocation } from "react-router-dom";
 import Navbar from "./Components/Navbar";
+import Routine from "./Components/Routine";
 
 const App = () => {
 
@@ -63,6 +64,14 @@ const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
           element={
             <ProtectedRoute>
               <MyProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/routine"
+          element={
+            <ProtectedRoute>
+              <Routine />
             </ProtectedRoute>
           }
         />

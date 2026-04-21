@@ -319,17 +319,25 @@ const handleAnalysisClick = async () => {
   };
 
   // 👈 Handle Reset to Saved Profile
-  const handleResetToSaved = () => {
-    if (savedProfile) {
-      setFormData(savedProfile);
-      setIsFormDirty(false);
-      toast.info("Reset to saved profile");
-    }
-  };
+  // const handleResetToSaved = () => {
+  //   if (savedProfile) {
+  //     setFormData(savedProfile);
+  //     setIsFormDirty(false);
+  //     toast.info("Reset to saved profile");
+  //   }
+  // };
 
-  const handleRoutineClick = () => {
-    navigate('/routine');
-  };
+ const handleRoutineClick = () => {
+   const allTouched = {};
+  ['location', 'skinType', 'budget', 'gender', 'category', 'concerns', 'productGoal'].forEach(key => {
+    allTouched[key] = true;
+  });
+  setTouched(allTouched);
+
+  if (!validateAll()) return;
+
+  navigate('/routine'); 
+};
 
   // Options lists
   const skinTypes = [

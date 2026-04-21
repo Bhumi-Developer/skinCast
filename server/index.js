@@ -7,6 +7,7 @@ import authRouter from './routes/auth.routes.js';
 import recommedRouter from './routes/recommendation.routes.js';
 import productRouter from './routes/product.routes.js';
 import userRouter from './routes/user.routes.js';
+import chatRouter from "./routes/chat.routes.js";
 
 
 
@@ -31,6 +32,7 @@ app.use("/api/auth",authRouter)
 app.use("/api/recommendation",recommedRouter)
 app.use("/api/product", productRouter);
 app.use("/api/user", userRouter);
+app.use("/api/chat", chatRouter);
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);

@@ -11,6 +11,7 @@ import AvoidSection from '../Components/AvoidSection'
 import Form from '../Components/Form';
 import AnimatedBanner from '../Components/AnimatedBanner'
 import Skin from '../Components/Provide'
+import ChatbotWidget from '../Components/ChatbotWidget'
 
 const Home = () => {
   const { showUserLogin, setShowUserLogin,showFormPopup, setShowFormPopup } = useAppContext();
@@ -27,6 +28,7 @@ const Home = () => {
       <Skin />
       <TrustSection />
       <Footer />
+      <ChatbotWidget />
       
      
        {showUserLogin && <Signup />}

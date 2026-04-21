@@ -1,7 +1,6 @@
 import React from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import MyAnalysis from './MyAnalysis';
-import Dashboard from './Dashboard';
 import MyRoutine from './MyRoutine';
 import Settings from './Settings';
 import ProfileLayout from './ProfileLayout';
@@ -19,9 +18,9 @@ const MyProfile = () => {
   return (
     <Routes>
       <Route path="/" element={<ProfileLayout onLogout={handleLogout} />}>
-        <Route index element={<Dashboard />} />
+        <Route index element={<Navigate to="saved" replace />} />
         <Route path="saved" element={<SavedProducts />} />
-        <Route path="routine" element={<MyRoutine />} />
+        <Route path="my-routine" element={<MyRoutine />} />
         <Route path="analysis" element={<MyAnalysis />} />
         <Route path="settings" element={<Settings />} />
       </Route>
