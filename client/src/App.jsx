@@ -14,6 +14,7 @@ import { Toaster } from "sonner";
 import { useLocation } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Routine from "./Components/Routine";
+import AboutUs from "./Pages/AboutUs";
 
 const App = () => {
 
@@ -39,6 +40,14 @@ const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
           element={
             <ProtectedRoute>
               <Form />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <ProtectedRoute>
+              <AboutUs />
             </ProtectedRoute>
           }
         />

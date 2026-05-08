@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { useAuth } from '../../context/AuthContext';
 
 const ProfileLayout = ({ onLogout }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
+    const {logout, user} = useAuth();
 
   const menuItems = [
     { id: 'saved', label: 'Saved Products', icon: '💾', path: '/profile/saved' },
@@ -13,10 +16,18 @@ const ProfileLayout = ({ onLogout }) => {
     { id: 'settings', label: 'Settings', icon: '⚙️', path: '/profile/settings' },
   ];
 
-  const handleLogout = () => {
-    onLogout();
-    navigate('/');
-  };
+  const handleLogout = async () => {
+  try {
+    await logout();
+    // setIsProfileOpen(false);
+    toast.success("Logged out");
+
+    navigate("/login"); 
+
+  } catch (err) {
+    toast.error(err.message || "Logout failed");
+  }
+};
 
   useEffect(() => {
     if (!mobileOpen) return;

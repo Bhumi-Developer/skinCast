@@ -33,10 +33,10 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Weather Sync', path: '/weather' },
-    { name: 'Smart Routines', path: '/routines' },
+    // { name: 'Weather Sync', path: '/weather' },
+    // { name: 'Smart Routines', path: '/routines' },
     { name: 'My Profile', path: '/profile' },
-    { name: 'Analysis', path: '/analysis' }
+    { name: 'About Us', path: '/about' }
   ];
 
   const handleSignOut = async () => {
@@ -76,7 +76,7 @@ const Navbar = () => {
             </div>
             <div>
               <span className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">
-                Skin<span className="text-primary">Sync</span>
+                Skin<span className="text-primary">Cast</span>
               </span>
             </div>
           </NavLink>
@@ -170,12 +170,12 @@ const Navbar = () => {
                       </div>
                       
                       <div className="py-2">
-                        <NavLink to="/profile" onClick={handleLinkClick} className="flex items-center px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-primary-dull/30 hover:text-primary transition-colors duration-200">
+                        {/* <NavLink to="/profile" onClick={handleLinkClick} className="flex items-center px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-primary-dull/30 hover:text-primary transition-colors duration-200">
                           <svg className="w-4 h-4 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                           </svg>
                           My Profile
-                        </NavLink>
+                        </NavLink> */}
                         {/* <NavLink to="/routines" onClick={handleLinkClick} className="flex items-center px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-[#FFE1AF]/30 hover:text-primary transition-colors duration-200">
                           <svg className="w-4 h-4 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

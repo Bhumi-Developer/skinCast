@@ -39,7 +39,7 @@ const Footer = () => {
       name: 'Instagram', 
       icon: 'Instagram', 
       href: '#', 
-      username: '@skinsync_india',
+      username: '@skinCast_india',
       bgColor: 'hover:bg-gradient-to-tr from-purple-600 to-pink-600',
       description: 'Daily skincare tips & weather updates'
     },
@@ -47,7 +47,7 @@ const Footer = () => {
       name: 'Facebook', 
       icon: 'Facebook', 
       href: '#', 
-      username: '/skinsync.india',
+      username: '/skinCast.india',
       bgColor: 'hover:bg-blue-600',
       description: 'Community discussions & support'
     },
@@ -55,7 +55,7 @@ const Footer = () => {
       name: 'Twitter', 
       icon: 'Twitter', 
       href: '#', 
-      username: '@skinsync',
+      username: '@skinCast',
       bgColor: 'hover:bg-sky-500',
       description: 'Real-time weather alerts'
     },
@@ -63,7 +63,7 @@ const Footer = () => {
       name: 'LinkedIn', 
       icon: 'LinkedIn', 
       href: '#', 
-      username: 'company/skinsync',
+      username: 'company/skinCast',
       bgColor: 'hover:bg-blue-700',
       description: 'Professional skincare insights'
     },
@@ -71,7 +71,7 @@ const Footer = () => {
       name: 'YouTube', 
       icon: 'YouTube', 
       href: '#', 
-      username: '@SkinSync',
+      username: '@skinCast',
       bgColor: 'hover:bg-red-600',
       description: 'Skincare tutorials & guides'
     }
@@ -151,8 +151,8 @@ const Footer = () => {
                 <svg className="w-4 h-4 text-[#B77466] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <a href="mailto:hello@skinsync.com" className="text-gray-400 hover:text-[#B77466] transition-colors">
-                  hello@skinsync.com
+                <a href="mailto:hello@skinCast.com" className="text-gray-400 hover:text-[#B77466] transition-colors">
+                  hello@skinCast.com
                 </a>
               </li>
               <li className="flex items-start space-x-3 text-sm">
@@ -254,7 +254,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-gray-400">
-              © {currentYear} SkinSync. All rights reserved. Made with ❤️ in India
+              © {currentYear} skinCast. All rights reserved. Made with ❤️ in India
             </p>
             <div className="flex flex-wrap justify-center gap-4 md:gap-6">
               {legalLinks.map((link, idx) => (
