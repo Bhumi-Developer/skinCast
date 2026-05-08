@@ -1,44 +1,99 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
+import api from '../../utils/axios';
+import { toast } from 'sonner';
 
-// Dummy data to show when no history exists
-const dummyData = {
-  date: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }),
-  time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
-  weather: {
-    temp: 32,
-    humidity: 68,
-    uvi: 7,
-    condition: 'Haze',
-    description: 'haze',
-  },
-  aqi: {
-    value: 3,
-    label: 'Moderate',
-  },
-  recommendations: {
-    ingredients: ['Vitamin C', 'Niacinamide', 'Hyaluronic Acid', 'SPF 30+', 'Aloe Vera'],
-    avoid: ['Heavy Creams', 'Fragrance', 'Denatured Alcohol'],
-    remedies: ['Multani Mitti Mask', 'Aloe Vera Ice Cubes', 'Green Tea Compress'],
-    productTypes: ['Gel Moisturizer', 'Oil-Free Sunscreen', 'Anti-Pollution Cleanser', 'Niacinamide Serum'],
-  },
+const formatDate = (d) =>
+  new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+const formatTime = (d) =>
+  new Date(d).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+const aqiLabel = (value) => {
+  const v = Number(value);
+  if (!Number.isFinite(v)) return 'Unknown';
+  if (v <= 50) return 'Good';
+  if (v <= 100) return 'Moderate';
+  if (v <= 150) return 'Unhealthy (Sensitive)';
+  if (v <= 200) return 'Unhealthy';
+  if (v <= 300) return 'Very Unhealthy';
+  return 'Hazardous';
+};
+
+const toUiRecord = (h) => {
+  const createdAt = h?.createdAt || Date.now();
+  const weather = h?.environment?.weather || {};
+  const aqiVal = h?.environment?.aqi;
+  const result = h?.result || {};
+
+  return {
+    id: h?._id || h?.id || String(createdAt),
+    date: formatDate(createdAt),
+    time: formatTime(createdAt),
+    weather: {
+      temp: weather?.temp ?? weather?.temperature ?? 0,
+      humidity: weather?.humidity ?? 0,
+      uvi: weather?.uvi ?? weather?.uvIndex ?? 0,
+      condition: weather?.condition || 'Clear',
+      description: weather?.description || '',
+    },
+    aqi: {
+      value: typeof aqiVal === 'number' ? aqiVal : Number(aqiVal ?? 0),
+      label: aqiLabel(aqiVal),
+    },
+    recommendations: {
+      ingredients: (result?.ingredients || []).map((i) => i?.name).filter(Boolean),
+      avoid: (result?.avoid || []).map((i) => i?.name).filter(Boolean),
+      remedies: (result?.homeRemedies || []).map((r) => r?.name).filter(Boolean),
+      productTypes: [result?.productType].filter(Boolean),
+    },
+    // for history view
+    skinType: h?.input?.skinType,
+    budget: h?.input?.budget,
+    concerns: h?.input?.concerns || [],
+    location: h?.input?.location,
+    gender: h?.input?.gender,
+    category: h?.input?.category,
+    raw: h,
+  };
 };
 
 const MyAnalysis = () => {
-  const [analysisData, setAnalysisData] = useState(dummyData);
+  const [analysisData, setAnalysisData] = useState(null);
   const [history, setHistory] = useState([]);
   const [viewMode, setViewMode] = useState('current'); // 'current' or 'history'
+  const [loading, setLoading] = useState(true);
 
-  // Load history from localStorage on mount
   useEffect(() => {
-    const savedHistory = JSON.parse(localStorage.getItem('analysisHistory')) || [];
-    setHistory(savedHistory);
-    if (savedHistory.length > 0) {
-      setAnalysisData(savedHistory[0]); // latest first
-    }
+    const fetchHistory = async () => {
+      try {
+        setLoading(true);
+        const res = await api.get('/api/recommendation/analyze-history');
+        const data = res?.data?.data || [];
+        const ui = data.map(toUiRecord);
+        setHistory(ui);
+        setAnalysisData(ui[0] || null);
+      } catch (e) {
+        toast.error(e?.response?.data?.message || 'Failed to load analysis history');
+        setHistory([]);
+        setAnalysisData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHistory();
   }, []);
 
-  // Destructure the current analysis data (FIXED: changed MyAnalysisData to analysisData)
-  const { weather, aqi, recommendations, date, time } = analysisData;
+  const current = analysisData;
+  const weather = current?.weather;
+  const aqi = current?.aqi;
+  const recommendations = current?.recommendations;
+  const date = current?.date;
+  const time = current?.time;
+
+  const hasCurrent = useMemo(
+    () => Boolean(weather && aqi && recommendations && date && time),
+    [weather, aqi, recommendations, date, time]
+  );
 
   const switchToHistory = () => setViewMode('history');
   const switchToCurrent = () => setViewMode('current');
@@ -52,7 +107,7 @@ const MyAnalysis = () => {
           Skin Analysis
         </h1>
         <p className="text-primary-light text-sm mt-1">
-          {date} at {time} {history.length === 0 && '(demo data)'}
+          {date} at {time}
         </p>
       </div>
 
@@ -175,13 +230,6 @@ const MyAnalysis = () => {
           )}
         </button>
       </div>
-
-      {/* Demo hint */}
-      {history.length === 0 && (
-        <p className="text-center text-xs text-primary-light/70 mt-4 italic">
-          Showing demo analysis — update your profile to see personalized insights
-        </p>
-      )}
     </>
   );
 
@@ -274,7 +322,7 @@ const MyAnalysis = () => {
   );
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-full overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 z-0">
         <img
@@ -286,8 +334,24 @@ const MyAnalysis = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 py-6">
-        {viewMode === 'current' ? renderCurrentAnalysis() : renderHistoryView()}
+      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-4 py-5 sm:py-6">
+        {loading ? (
+          <div className="bg-white/30 backdrop-blur-md rounded-xl p-8 text-center">
+            <p className="text-gray-600">Loading…</p>
+          </div>
+        ) : viewMode === 'current' ? (
+          hasCurrent ? (
+            renderCurrentAnalysis()
+          ) : (
+            <div className="bg-white/30 backdrop-blur-md rounded-xl p-8 text-center">
+              <p className="text-gray-500 italic">
+                No analysis yet. Run an analysis to see results here.
+              </p>
+            </div>
+          )
+        ) : (
+          renderHistoryView()
+        )}
       </div>
     </div>
   );

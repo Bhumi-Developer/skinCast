@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 
 const ProfileLayout = ({ onLogout }) => {
   const [collapsed, setCollapsed] = useState(false);
@@ -8,7 +8,7 @@ const ProfileLayout = ({ onLogout }) => {
 
   const menuItems = [
     { id: 'saved', label: 'Saved Products', icon: '💾', path: '/profile/saved' },
-    { id: 'routine', label: 'My Routine', icon: '📋', path: '/profile/routine' },
+    { id: 'routine', label: 'My Routine', icon: '📋', path: '/profile/my-routine' },
     { id: 'analysis', label: 'Analysis', icon: '📈', path: '/profile/analysis' },
     { id: 'settings', label: 'Settings', icon: '⚙️', path: '/profile/settings' },
   ];
@@ -49,12 +49,12 @@ const ProfileLayout = ({ onLogout }) => {
         >
           ☰
         </button>
-        <div className="flex items-center gap-3 min-w-0">
+        <Link to='/' className="flex items-center gap-3 min-w-0">
           <span className="text-2xl bg-primary/20 p-2 rounded-xl">🌸</span>
           <span className="font-bold text-xl text-primary tracking-tight truncate">
             GlowGuide
           </span>
-        </div>
+        </Link>
         <div className="w-10" />
       </div>
 
@@ -66,12 +66,12 @@ const ProfileLayout = ({ onLogout }) => {
       >
         <div className="p-5 flex items-center justify-between border-b border-white/30">
           {!collapsed && (
-            <div className="flex items-center gap-3">
+            <Link to='/' className="flex items-center gap-3">
               <span className="text-3xl bg-primary/20 p-2 rounded-xl">🌸</span>
-              <span className="font-bold text-2xl text-primary tracking-tight">
+               <span className="font-bold text-2xl text-primary tracking-tight">
                 GlowGuide
               </span>
-            </div>
+            </Link>
           )}
           <button
             onClick={() => setCollapsed(!collapsed)}

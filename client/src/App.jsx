@@ -18,7 +18,7 @@ import Routine from "./Components/Routine";
 const App = () => {
 
     const location = useLocation();
-  const hideNavbarRoutes = ["/login", "/signup"];
+  const hideNavbarRoutes = ["/login", "/signup",'/profile/saved','/profile/my-routine', '/profile/analysis', '/profile/settings'];
 
 const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
 
