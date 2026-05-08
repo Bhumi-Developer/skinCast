@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useAnalysis } from '../context/AnalysisContext';
 
 const Banners = () => {
   const { setShowFormPopup } = useAppContext();
@@ -69,7 +70,8 @@ const Banners = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const totalSlides = banners.length;
-  const {user} = useAuth()
+  const { user, loading: authLoading } = useAuth();
+  const { analysis } = useAnalysis();
 
   // Auto-slide effect
   useEffect(() => {
@@ -103,16 +105,17 @@ const Banners = () => {
 
   const current = banners[currentIndex];
 
+  // Only auto-open the form popup if the user is logged in and has no saved analysis
   useEffect(() => {
-  const completed = localStorage.getItem("formCompleted");
-  const savedAnalysis = localStorage.getItem("analysis");
+    if (authLoading) return; // wait until auth state is known
+    if (!user) return;       // not logged in — never show popup automatically
 
-  if (!completed && !savedAnalysis) {
-    setShowFormPopup(true);
-  } else {
-    setShowFormPopup(false);
-  }
-}, []);
+    if (!analysis) {
+      setShowFormPopup(true);
+    } else {
+      setShowFormPopup(false);
+    }
+  }, [user, authLoading, analysis]);
 
   return (
     <div className="w-full bg-linear-to-br from-primary-dull to-white px-4 py-2">
