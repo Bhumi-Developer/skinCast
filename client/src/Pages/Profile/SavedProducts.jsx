@@ -13,7 +13,7 @@ const SavedProducts = () => {
         setLoading(true);
         const res = await api.get('/api/product/my-products');
         setSaved(res?.data?.data || []);
-        console.log(res.data.data)
+        // console.log(res.data.data)
       } catch (e) {
         toast.error(e?.response?.data?.message || 'Failed to load saved products');
         setSaved([]);

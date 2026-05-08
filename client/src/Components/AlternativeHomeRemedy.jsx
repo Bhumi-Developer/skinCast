@@ -5,7 +5,7 @@ const AlternativeRemedySection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { analysis } = useAnalysis();
   
-  console.log('Analysis:', analysis);
+  // console.log('Analysis:', analysis);
   
   // ✅ Get homeRemedies from the correct path
   const remedies = analysis?.recommendation?.homeRemedies || [];

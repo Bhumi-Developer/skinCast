@@ -33,7 +33,7 @@ const ExploreProducts = () => {
     setFetchingSaved(true);
     try {
       const response = await api.get('/api/product/my-products');
-      console.log("Fetched saved products:", response.data);
+      // console.log("Fetched saved products:", response.data);
       
       const savedMap = {};
       
@@ -63,9 +63,8 @@ const ExploreProducts = () => {
       }
       
       setSavedProducts(savedMap);
-      console.log("Saved products map:", savedMap);
     } catch (error) {
-      console.error("Failed to fetch saved products:", error);
+      // console.error("Failed to fetch saved products:", error);
       // Don't show toast error on page load to avoid annoyance
     } finally {
       setFetchingSaved(false);
@@ -138,8 +137,8 @@ const ExploreProducts = () => {
         toast.success("Saved ❤️");
       }
     } catch (err) {
-      console.log("FULL ERROR:", err.response);
-      console.log("BACKEND MESSAGE:", err.response?.data);
+      // console.log("FULL ERROR:", err.response);
+      // console.log("BACKEND MESSAGE:", err.response?.data);
       
       if (err.response?.status === 404) {
         toast.error("Product not found");

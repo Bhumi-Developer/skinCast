@@ -12,7 +12,7 @@ export default function RecommendedProducts() {
     async function fetchData() {
       try {
         const response = await api.get("/api/product/best-products");
-        console.log(response)
+        // console.log(response)
         
         // Filter only beauty and fragrance products
         // const beautyProducts = data.products.filter(

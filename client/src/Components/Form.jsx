@@ -81,7 +81,7 @@ function Form({ onComplete }) {
     const fetchProfile = async () => {
       try {
         const res = await api.get("/api/user/profile");
-        console.log("Profile response:", res.data);
+        // console.log("Profile response:", res.data);
         
         const profileData = res.data.data || res.data;
         
@@ -126,7 +126,7 @@ function Form({ onComplete }) {
           setFormData(profile); // 👈 Initialize form with saved profile
         }
       } catch (err) {
-        console.error("Profile fetch error:", err);
+        // console.error("Profile fetch error:", err);
         toast.error(err.message || "Something went wrong");
       } finally {
         setLoadingProfile(false);
